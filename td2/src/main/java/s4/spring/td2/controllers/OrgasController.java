@@ -1,12 +1,16 @@
 package s4.spring.td2.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.view.RedirectView;
 
 import s4.spring.td2.entities.Groupe;
 import s4.spring.td2.entities.Organization;
@@ -60,9 +64,53 @@ public class OrgasController {
 		
 	}
 	
+	
+	
 	@RequestMapping("{path:index}")
-	public String Index() {
+	public String Index(Model model) {
+		List<Organization> orgas = orgasRepo.findAll();
+		model.addAttribute("orgas", orgas);
 		return "index";
 		
 	}
+	
+	@RequestMapping("{path:display}")
+	public RedirectView display(@PathVariable int id, Organization organization) {
+		Optional<Organization> optOrga = orgasRepo.findById(id);
+		if(optOrga.isPresent()) {
+			Organization orga=optOrga.get();
+		}		
+		return new RedirectView("/display/{id}");
+	}
+	
+	
+	
+	@PostMapping("submit/{id}")
+	public RedirectView submit(@PathVariable int id, Organization organization) {
+		Optional<Organization> optOrga = orgasRepo.findById(id);
+		if(optOrga.isPresent()) {
+			Organization orga=optOrga.get();
+			copyFrom(organization, orga);
+			orgasRepo.save(organization);
+		}		
+		return new RedirectView("/orgas/");
+	}
+
+	@PostMapping("submit")
+	public RedirectView submit(Organization organization) {
+		orgasRepo.save(organization);
+		return new RedirectView("/orgas/");
+	}
+
+	
+	private void copyFrom(Organization source, Organization dest) {
+		dest.setName(source.getName());
+		dest.setDomain(source.getDomain());
+		dest.setAliases(source.getAliases());		
+	}
+	
+	
+	
+	
+	
 }
