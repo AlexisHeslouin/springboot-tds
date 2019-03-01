@@ -74,7 +74,7 @@ public class OrgasController {
 		
 	}
 	
-	@RequestMapping("{path:display}")
+	@RequestMapping("display/{id}")
 	public RedirectView display(@PathVariable int id, Organization organization) {
 		Optional<Organization> optOrga = orgasRepo.findById(id);
 		if(optOrga.isPresent()) {
@@ -83,25 +83,38 @@ public class OrgasController {
 		return new RedirectView("/display/{id}");
 	}
 	
+	@RequestMapping("new")
+	public String frmNew(Model model) {
+		model.addAttribute("orgas", new Organization());
+		return "new";
+		
+	}
 	
+	@RequestMapping("edit/{id}")
+	public String frmEdit(@PathVariable int id, Model model) {
+		Optional<Organization> optOrga = orgasRepo.findById(id);
+		if(optOrga.isPresent()) {
+			model.addAttribute("org", optOrga.get());
+			return "edit";
+		}		
+		return "404";
+	}
 	
 	@PostMapping("submit/{id}")
 	public RedirectView submit(@PathVariable int id, Organization organization) {
-		Optional<Organization> optOrga = orgasRepo.findById(id);
-		if(optOrga.isPresent()) {
-			Organization orga=optOrga.get();
-			copyFrom(organization, orga);
+		if(organization.getId()!=0l) {
+			Optional<Organization> optOrga = orgasRepo.findById(id);
+			if(optOrga.isPresent()) {
+				Organization orga=optOrga.get();
+				copyFrom(organization, orga);
+				orgasRepo.save(organization);
+			}	
+		}else {
 			orgasRepo.save(organization);
-		}		
+		}
+			
 		return new RedirectView("/orgas/");
 	}
-
-	@PostMapping("submit")
-	public RedirectView submit(Organization organization) {
-		orgasRepo.save(organization);
-		return new RedirectView("/orgas/");
-	}
-
 	
 	private void copyFrom(Organization source, Organization dest) {
 		dest.setName(source.getName());
