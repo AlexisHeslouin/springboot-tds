@@ -1,0 +1,33 @@
+{{>header}}
+<div class="ui container">
+		<br>
+		<h3>Connectez-vous !</h3>
+	    <form class="ui form grid" modelAttribute="utilisateur" action="/login" method="POST" >		
+			
+	      <div class="ui two width column stacked secondary segment">
+	        <div class="ui form ">
+				<div class="field">
+					<label>Login</label>
+				  <div class="ui left icon input">
+					<i class="user icon"></i>
+					<input type="text" path ="login" name="login" required="required" value="root"></input>
+				  </div>
+				</div>
+				
+				<div class="field">
+					<label>Password</label>
+				  <div class="ui left icon input">
+					<i class="lock icon"></i>
+					<input type="password"  path="password" name="password" placeholder="..." ></input>
+				  </div>
+				</div>
+				<div>
+					<button class="ui fluid blue submit button" type="submit" >Login</button>
+				</div>
+			</div>
+			
+			
+	      </div>
+	    </form>
+</div>
+{{>footer}}
