@@ -41,8 +41,7 @@
 		<dependency>
   		<groupId>org.hibernate</groupId>
  		 <artifactId>hibernate-core</artifactId>
- 		 <version>5.2.12.Final</version>
-  		<scope>compile</scope>
+ 		 <scope>compile</scope>
 		</dependency>
 		<dependency>
     		<groupId>org.webjars</groupId>
@@ -52,17 +51,18 @@
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-data-jpa</artifactId>
-		    <version>2.1.3.RELEASE</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		
 		<dependency>
-    		<groupId>org.webjars</groupId>
-    		<artifactId>Semantic-UI</artifactId>
-    		<version>2.4.1</version>
+			<groupId>org.webjars</groupId>
+			<artifactId>Semantic-UI</artifactId>
+			<version>2.4.1</version>
 		</dependency>
 		
 	</dependencies>
